@@ -1,3 +1,5 @@
 
 *.rmgame
 Thumbs.db
+bin/
+
