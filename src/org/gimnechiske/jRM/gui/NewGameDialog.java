@@ -1,12 +1,25 @@
 package org.gimnechiske.jRM.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-import javax.swing.*;
-import org.gimnechiske.jRM.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.gimnechiske.jRM.Game;
+import org.gimnechiske.jRM.Gamemaster;
+import org.gimnechiske.jRM.GamemasterApp;
 
 public class NewGameDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -15,21 +28,21 @@ public class NewGameDialog extends JDialog {
 	JTextField tf3 = new JTextField(12);
 	JTextField tf4_1 = new JTextField(3);
 	JTextField tf4_2 = new JTextField(3);
-	JComboBox<String> cb5 = new JComboBox<>();
-	JComboBox<String> cb6 = new JComboBox<>();
-	JComboBox<String> cb7 = new JComboBox<>();
-	JComboBox<String> cb8 = new JComboBox<>();
-	
+	JComboBox cb5 = new JComboBox();
+	JComboBox cb6 = new JComboBox();
+	JComboBox cb7 = new JComboBox();
+	JComboBox cb8 = new JComboBox();
+
 	public NewGameDialog(Gamemaster gm) {
 		myGM = gm;
 		GridBagLayout l = new GridBagLayout();
 		setLayout(l);
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(5, 5, 5, 5);
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		/* Fields and labels */
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
@@ -37,14 +50,14 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label1 = new JLabel("Game Name:");
-		add(label1,c);
+		add(label1, c);
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		add(tf1,c);
+		add(tf1, c);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 1;
@@ -52,7 +65,7 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label2 = new JLabel("Gamemaster:");
-		add(label2,c);
+		add(label2, c);
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridheight = 1;
@@ -63,7 +76,7 @@ public class NewGameDialog extends JDialog {
 		tf2.setEditable(false);
 		tf2.setFocusable(false);
 		tf2.setText(gm.getName());
-		add(tf2,c);
+		add(tf2, c);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;
@@ -71,14 +84,14 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label3 = new JLabel("World Name:");
-		add(label3,c);
+		add(label3, c);
 		c.gridx = 1;
 		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		add(tf3,c);
+		add(tf3, c);
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridheight = 1;
@@ -103,7 +116,7 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.CENTER;
 		JLabel label4_2 = new JLabel("-");
-		add(label4_2,c);
+		add(label4_2, c);
 		c.gridx = 3;
 		c.gridy = 3;
 		c.gridheight = 1;
@@ -112,7 +125,7 @@ public class NewGameDialog extends JDialog {
 		c.anchor = GridBagConstraints.EAST;
 		// Make field only accept numbers
 		tf4_2.setText("8");
-		add(tf4_2,c);
+		add(tf4_2, c);
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridheight = 1;
@@ -120,7 +133,7 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label5 = new JLabel("Magic level:");
-		add(label5,c);
+		add(label5, c);
 		c.gridx = 1;
 		c.gridy = 4;
 		c.gridheight = 1;
@@ -131,7 +144,7 @@ public class NewGameDialog extends JDialog {
 		cb5.addItem("Medium Magic");
 		cb5.addItem("Low Magic");
 		cb5.addItem("No Magic");
-		add(cb5,c);
+		add(cb5, c);
 		c.gridx = 0;
 		c.gridy = 5;
 		c.gridheight = 1;
@@ -139,7 +152,7 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label6 = new JLabel("Hero level:");
-		add(label6,c);
+		add(label6, c);
 		c.gridx = 1;
 		c.gridy = 5;
 		c.gridheight = 1;
@@ -153,7 +166,7 @@ public class NewGameDialog extends JDialog {
 		cb6.addItem("Fantastic");
 		cb6.addItem("Superheroic");
 		cb6.addItem("Devine Intervention");
-		add(cb6,c);
+		add(cb6, c);
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridheight = 1;
@@ -161,7 +174,7 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label7 = new JLabel("Technology level:");
-		add(label7,c);
+		add(label7, c);
 		c.gridx = 1;
 		c.gridy = 6;
 		c.gridheight = 1;
@@ -183,7 +196,7 @@ public class NewGameDialog extends JDialog {
 		cb7.addItem("Atomic Age");
 		cb7.addItem("Information Age");
 		cb7.addItem("Space Age");
-		add(cb7,c);
+		add(cb7, c);
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridheight = 1;
@@ -191,7 +204,7 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		JLabel label8 = new JLabel("Setting Type");
-		add(label8,c);
+		add(label8, c);
 		c.gridx = 1;
 		c.gridy = 7;
 		c.gridheight = 1;
@@ -209,8 +222,8 @@ public class NewGameDialog extends JDialog {
 		cb8.addItem("Horror");
 		cb8.addItem("Crime");
 		cb8.addItem("Hack'n'Slash");
-		add(cb8,c);
-		
+		add(cb8, c);
+
 		// Buttons
 		c.gridx = 0;
 		c.gridy = 8;
@@ -219,29 +232,31 @@ public class NewGameDialog extends JDialog {
 		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.CENTER;
 		JPanel buttons = new ButtonPane(this);
-		add(buttons,c);
-		
+		add(buttons, c);
+
 		pack();
 	}
-	
+
 	private class ButtonPane extends JPanel {
 		private static final long serialVersionUID = 1L;
 		public Dialog parent;
+
 		private ButtonPane(Dialog parentDialog) {
 			parent = parentDialog;
 			JButton ok = new JButton("Create Game");
 			JButton cancel = new JButton("Cancel");
-			
+
 			ok.addActionListener(new ButtonListener());
 			ok.setMnemonic('c');
 			cancel.addActionListener(new ButtonListener());
-			
+
 			add(ok);
 			add(cancel);
 			pack();
 		}
-		
+
 		private class ButtonListener implements ActionListener {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String cmd = e.getActionCommand();
 				if (cmd == "Cancel") {
@@ -262,31 +277,34 @@ public class NewGameDialog extends JDialog {
 					if (gamename.length() == 0) {
 						error = true;
 						tf1.setBackground(Color.red);
-					}
-					else tf1.setBackground(Color.green);
+					} else
+						tf1.setBackground(Color.green);
 					if (worldname.length() == 0) {
 						error = true;
 						tf3.setBackground(Color.red);
-					}
-					else tf3.setBackground(Color.green);
+					} else
+						tf3.setBackground(Color.green);
 					if (minPlayers < 1) {
 						error = true;
 						tf4_1.setBackground(Color.red);
-					}
-					else tf4_1.setBackground(Color.green);
+					} else
+						tf4_1.setBackground(Color.green);
 					if (maxPlayers < minPlayers) {
 						error = true;
 						tf4_2.setBackground(Color.red);
-					}
-					else tf4_2.setBackground(Color.green);
-					
+					} else
+						tf4_2.setBackground(Color.green);
+
 					if (error) {
-						System.out.println("[GM] New Game: Error, try correcting your fields");
-						JOptionPane.showMessageDialog(null, 
-								"An error in input data, edit any highlighted fields and try again.", 
-								"Input error!", JOptionPane.ERROR_MESSAGE);
-					}
-					else {
+						System.out
+								.println("[GM] New Game: Error, try correcting your fields");
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"An error in input data, edit any highlighted fields and try again.",
+										"Input error!",
+										JOptionPane.ERROR_MESSAGE);
+					} else {
 						Game g = new Game(myGM, gamename);
 						g.setWorld(worldname);
 						g.setMinPlayers(minPlayers);
@@ -295,21 +313,23 @@ public class NewGameDialog extends JDialog {
 						g.setHero(heroLevel);
 						g.setTechnology(techLevel);
 						g.setSetting(settingType);
-					
+
 						// put the game object into the server and register it
 						// so that it becomes available for players
 						try {
-							System.out.println("[GM] Registering game in server");
+							System.out
+									.println("[GM] Registering game in server");
 							GamemasterApp.serverObj.registerGame(g);
 							GamemasterApp.setGame(g);
 							parent.setVisible(false);
 							GamemasterWindow.gameMenuStatus();
 						} catch (RemoteException e1) {
-							System.out.println("[GM] ERROR: Cannot register game!");
+							System.out
+									.println("[GM] ERROR: Cannot register game!");
 							e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, 
-									"ERROR: Cannot register game!",
-									"Error!", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,
+									"ERROR: Cannot register game!", "Error!",
+									JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
